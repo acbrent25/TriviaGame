@@ -3,84 +3,123 @@ $(function() {
 
 
 var correctAnswer;
-var wrongAnswer;
-var unAnswered;
-var guessedAnswer;
 var question;
-var answers;
 var correctAnswer;
-var randomQuestion;
-var chosenQuestion = [];
-var whatever;
 var theCorrectAnswer;
+var eachAnswer;
+var eachAnswers = [];
+var wrongAnswer = [];
+var chosenAnswer;
 
-var questions = [
-    {question: "Which of the Beatles is barefoot on the Abby Road album cover?",
-    answers: ["Paul McCartney", "John Lennon", "George Harrison", "Ringo Starr"],
-    correctAnswer: "Paul McCartney"},
 
-    {question: "'Stairway to Heaven' a song by English rock band Led Zeppelin was originally released on which of their albums?",
-    answers: ["Led Zeppelin IV","Led Zeppelin II", "Led Zeppelin III", "Coda"],
-    correctAnswer: "Led Zeppelin IV"},
-
-    {question: "What American punk rock band released their best-selling album 'Dookie' in 1994?",
-    answers: ["Green Day","Rancid", "Blink-182", "The Offspring"],
-    correctAnswer: "Green Day"},
-
-    {question: "American singer-songwriter Johny Cash passed away in what year?",
-    answers: ["2003","2001", "1997", "2005"],
-    correctAnswer: "2003"}
-]
+// Function to create objects
+function questions(theQuestion,thePossibleAnswers,theCorrectAnswer) {
     
-;
-
-
-
-console.log("test " + questions[1].question + " " + questions[1].answers[2] + " " + questions[1].correctAnswer);
-
-for (var i = 0; i <  questions.length; i++) {
-    chosenQuestion = questions[i].question;
-    console.log('questions ' + chosenQuestion);
-
-    theCorrectAnswer = questions[i].correctAnswer
-    console.log('theCorrectAnswer ' + theCorrectAnswer);
-
+        this.question = theQuestion;
+        this.possibleAnswers = thePossibleAnswers;
+        this.correctAnswer = theCorrectAnswer;
     
+        this.showQuestion = function() {
+            $('.question').text(this.question);
+            console.log('The Question is: ' + this.question);
+        }
+    
+        this.showPossibleAnswers = function() {
+            this.possibleAnswers.forEach(function(eachAnswer) {
+                console.log("Possible Answers " + eachAnswer);
+                $('.game').append('<p>' + eachAnswer + '</p>');
+            });
+            
+        }
+    
+        this.showCorrectAnswer = function() {
+            console.log('The correct answer is: ' + this.correctAnswer);
+        }
+    
+    
+    } //  questions function
 
-    for (var j = 0; j < questions[i].answers.length;  j++ ) {
 
-        whatever =  questions[i].answers[j];
-        console.log('answers ' + whatever);
+    // countdown timer
+
+    var i = 5;
+    
+    function startTimer() {
+    
+        var countdownTimer = setInterval(function() {
+    
+            $('.timer').html("Time Left: " + i);
+            i = i - 1;
+    
+            if (i <= -1) {
+                clearInterval(countdownTimer);
+            }
+    
+        }, 1000);
+    
     }
     
-}
+     
 
- //  iterate through each question
+
+
+var questionOne = new questions("Which of the Beatles is barefoot on the Abby Road album cover?",["Paul McCartney", "John Lennon", "George Harrison", "Ringo Starr"], "Paul McCartney");
+    // questionOne.showQuestion();
+    // questionOne.showPossibleAnswers();
+    // questionOne.showCorrectAnswer();
+
+var questionTwo = new questions("'Stairway to Heaven' a song by English rock band Led Zeppelin was originally released on which of their albums?",["Led Zeppelin IV","Led Zeppelin II", "Led Zeppelin III", "Coda"], "Led Zeppelin IV");
+    // questionTwo.showQuestion();
+    // questionTwo.showPossibleAnswers();
+    // questionTwo.showCorrectAnswer();
+
+var questionThree = new questions("What American punk rock band released their best-selling album 'Dookie' in 1994?",["Green Day","Rancid", "Blink-182", "The Offspring"], "Green Day");
+var questionFour = new questions("American singer-songwriter Johny Cash passed away in what year?",["2003","2001", "1997", "2005"], "2003");
+
+
+
+
+
     // on game start show start button only
     $('.question').html('<button type="button" class="btn btn-danger btn-lg btn-block">Start</button>');
 
 
-// onclick start button  replace HTML ask a question, and give for answers.  and start timer for 25 seconds
+    // onclick start button  replace HTML ask a question, and give for answers.  and start timer for 25 seconds
+        $('body').on('click', '.questionBtn', function() {
 
-    $('.questionBtn').on('click', function(){
-        
+            
+            questionOne.showQuestion();
+            questionOne.showPossibleAnswers();
+            
+
        
 
-    
-        // Ask the Questions
+        });
 
+        $('body').on('click', '.game p', function() {
 
+           $(this).addClass('chosen-Answer');
 
+           chosenAnswer = $('.chosen-Answer').text();
+           console.log("chosenAnswer: " + chosenAnswer);
 
-        
-        
+           questionOne.showCorrectAnswer();
 
-        
-        // Possible Answers
-     
-    });
+            if (chosenAnswer === theCorrectAnswer ) {
+                alert("you right fool");
+            } else {
+                alert("you done messed up");
+            }
+
 
  
+
+        });
+
+        
+
+
+  
 
 
 
@@ -90,5 +129,12 @@ for (var i = 0; i <  questions.length; i++) {
 
 // if user gets it wrong say "you are wrong" and show them the correct answer and giphy.
 
-// At end show them number of right, wrong, and unanswered questions.  
+// At end show them number of right, wrong, and unanswered questions. 
+
+
+
+
+    
+
+
 });
